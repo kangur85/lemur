@@ -29,4 +29,6 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
+	compileOnly "org.projectlombok:lombok:1.16.12"
 }
