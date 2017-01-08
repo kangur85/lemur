@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class DirectoryWatchController {
     @Value("${watchDirectoryPath}")
     private String watchDirectoryPath;
 
-    public Observable<List<Path>> getAll() {
-        return Observable.just(new LinkedList<Path>());
+    public Observable<List<FileEntry>> getAll() {
+        return Observable.just(new LinkedList<FileEntry>());
     }
 
 

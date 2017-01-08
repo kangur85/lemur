@@ -9,4 +9,5 @@ public class LemurApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LemurApplication.class, args);
 	}
+
 }
