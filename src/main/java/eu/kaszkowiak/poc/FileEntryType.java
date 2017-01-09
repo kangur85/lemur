@@ -1,9 +1,6 @@
 package eu.kaszkowiak.poc;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +18,7 @@ public enum FileEntryType {
     @JsonValue
     @Override
     public String toString() {
-        for (Map.Entry<String, FileEntryType> entry: texts.entrySet()) {
+        for (Map.Entry<String, FileEntryType> entry : texts.entrySet()) {
             if (this.equals(entry.getValue())) {
                 return entry.getKey();
             }
