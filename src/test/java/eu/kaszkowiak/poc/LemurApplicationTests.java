@@ -12,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LemurApplicationTests {
 
 
-	@Test
-	public void contextLoads() {
-		assertThat(true).isTrue(); // codacy warning hack
-	}
+    @Test
+    public void contextLoads() {
+        assertThat(true).isTrue(); // codacy warning hack
+    }
 
 }
