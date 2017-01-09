@@ -2,12 +2,15 @@ package eu.kaszkowiak.poc;
 
 import io.reactivex.Observable;
 import lombok.Getter;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import java.io.File;
+import java.util.Iterator;
 
 @RestController
 public class DirectoryWatchController {
@@ -16,9 +19,41 @@ public class DirectoryWatchController {
     @Value("${watchDirectoryPath}")
     private String watchDirectoryPath;
 
-    public Observable<List<FileEntry>> getAll() {
-        return Observable.just(new LinkedList<FileEntry>());
+    @RequestMapping(method = RequestMethod.GET, value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Observable<FileEntry> getAll() {
+        return Observable.concat(getDirectoryContents(), getDirectoryChanges());
     }
 
+    private Observable<FileEntry> getDirectoryChanges() {
+        return Observable.empty();
+    }
+
+    private Observable<FileEntry> getDirectoryContents() {
+        return Observable.fromIterable(new Iterable<FileEntry>() {
+
+            private Iterator<FileEntry> iterator;
+
+            @Override
+            public Iterator<FileEntry> iterator() {
+
+                if (iterator == null) {
+                    iterator = new Iterator<FileEntry>() {
+                        private Iterator<File> fileIterator = FileUtils.iterateFiles(new File(watchDirectoryPath), null, true);
+
+                        @Override
+                        public boolean hasNext() {
+                            return fileIterator.hasNext();
+                        }
+
+                        @Override
+                        public FileEntry next() {
+                            return new FileEntry(fileIterator.next().getPath(), FileEntryType.NEW_FILE);
+                        }
+                    };
+                }
+                return iterator;
+            }
+        });
+    }
 
 }

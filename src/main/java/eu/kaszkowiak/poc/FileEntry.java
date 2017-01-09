@@ -1,5 +1,8 @@
 package eu.kaszkowiak.poc;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,10 +13,15 @@ public class FileEntry {
     private final String filePath;
 
     @Getter
-    private final Type type;
+    private final FileEntryType type;
 
-    enum Type {
-        NEW_FILE
+    @Override
+    public String toString() {
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
 }
