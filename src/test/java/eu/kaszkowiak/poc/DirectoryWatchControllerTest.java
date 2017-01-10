@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.publisher.Flux;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +20,7 @@ public class DirectoryWatchControllerTest {
 
     @Test
     public void shouldGetFileList() {
-        Observable<FileEntry> fileEntries = watchController.getAll();
+        Flux<FileEntry> fileEntries = watchController.getAll();
         TestObserver<FileEntry> testObserver = new TestObserver<>();
         fileEntries.subscribe(testObserver);
         testObserver.assertNoErrors();

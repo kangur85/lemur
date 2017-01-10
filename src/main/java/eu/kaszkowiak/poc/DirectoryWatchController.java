@@ -1,21 +1,17 @@
 package eu.kaszkowiak.poc;
 
-import io.reactivex.Observable;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
+import reactor.core.publisher.Flux;
 
 import java.io.File;
 import java.util.Iterator;
 
 @Controller
-@CrossOrigin(origins = "*")
 public class DirectoryWatchController {
 
     @Getter
@@ -25,19 +21,17 @@ public class DirectoryWatchController {
 
     @MessageMapping("/lemur")
     @SendTo("/topic/files")
-    public DeferredResult<FileEntry> getAll() {
-        Observable<FileEntry> o = Observable.concat(getDirectoryContents(), getDirectoryChanges());
-        DeferredResult<FileEntry> deferred = new DeferredResult<FileEntry>();
-        o.subscribe(m -> deferred.setResult(m), e -> deferred.setErrorResult(e));
-        return deferred;
+    public Flux<FileEntry> getAll() {
+        Flux<FileEntry> o = Flux.concat(getDirectoryContents(), getDirectoryChanges());
+        return o;
     }
 
-    private Observable<FileEntry> getDirectoryChanges() {
-        return Observable.empty();
+    private Flux<FileEntry> getDirectoryChanges() {
+        return Flux.empty();
     }
 
-    private Observable<FileEntry> getDirectoryContents() {
-        return Observable.fromIterable(new Iterable<FileEntry>() {
+    private Flux<FileEntry> getDirectoryContents() {
+        return Flux.fromIterable(new Iterable<FileEntry>() {
 
             private Iterator<FileEntry> iterator;
 
@@ -54,8 +48,7 @@ public class DirectoryWatchController {
                         public boolean hasNext() {
                             if (fileIterator.hasNext()) {
                                 cnt++;
-                            }
-                            else {
+                            } else {
                                 System.out.println(String.format("Has next replied %d times", cnt));
                             }
                             return fileIterator.hasNext();
