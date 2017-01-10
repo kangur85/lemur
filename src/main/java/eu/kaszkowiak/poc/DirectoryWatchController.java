@@ -5,21 +5,31 @@ import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.io.File;
 import java.util.Iterator;
 
-@RestController
+@Controller
+@CrossOrigin(origins = "*")
 public class DirectoryWatchController {
 
     @Getter
     @Value("${watchDirectoryPath}")
     private String watchDirectoryPath;
 
-    @MessageMapping("/all")
-    public Observable<FileEntry> getAll() {
-        return Observable.concat(getDirectoryContents(), getDirectoryChanges());
+
+    @MessageMapping("/lemur")
+    @SendTo("/topic/files")
+    public DeferredResult<FileEntry> getAll() {
+        Observable<FileEntry> o = Observable.concat(getDirectoryContents(), getDirectoryChanges());
+        DeferredResult<FileEntry> deferred = new DeferredResult<FileEntry>();
+        o.subscribe(m -> deferred.setResult(m), e -> deferred.setErrorResult(e));
+        return deferred;
     }
 
     private Observable<FileEntry> getDirectoryChanges() {
@@ -31,6 +41,8 @@ public class DirectoryWatchController {
 
             private Iterator<FileEntry> iterator;
 
+            private int cnt = 0;
+
             @Override
             public Iterator<FileEntry> iterator() {
 
@@ -40,6 +52,12 @@ public class DirectoryWatchController {
 
                         @Override
                         public boolean hasNext() {
+                            if (fileIterator.hasNext()) {
+                                cnt++;
+                            }
+                            else {
+                                System.out.println(String.format("Has next replied %d times", cnt));
+                            }
                             return fileIterator.hasNext();
                         }
 
