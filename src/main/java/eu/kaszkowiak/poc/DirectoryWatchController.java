@@ -2,9 +2,12 @@ package eu.kaszkowiak.poc;
 
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
+import org.reactivestreams.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 
@@ -18,12 +21,14 @@ public class DirectoryWatchController {
     @Value("${watchDirectoryPath}")
     private String watchDirectoryPath;
 
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @MessageMapping("/lemur")
     @SendTo("/topic/files")
-    public Flux<FileEntry> getAll() {
+    public void getAll() {
         Flux<FileEntry> o = Flux.concat(getDirectoryContents(), getDirectoryChanges());
-        return o;
+        o.subscribe(entry -> template.convertAndSend("/topic/files", entry));
     }
 
     private Flux<FileEntry> getDirectoryChanges() {
@@ -46,11 +51,6 @@ public class DirectoryWatchController {
 
                         @Override
                         public boolean hasNext() {
-                            if (fileIterator.hasNext()) {
-                                cnt++;
-                            } else {
-                                System.out.println(String.format("Has next replied %d times", cnt));
-                            }
                             return fileIterator.hasNext();
                         }
 
