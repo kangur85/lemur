@@ -33,5 +33,6 @@ dependencies {
 	compileOnly "org.projectlombok:lombok:1.16.12"
 	compile "io.projectreactor:reactor-core:3.0.4.RELEASE"
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	compile('org.springframework.boot:spring-boot-starter-security')
 
 }

@@ -1,17 +1,23 @@
 package eu.kaszkowiak.poc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
-import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.Iterator;
 
 @Controller
@@ -25,10 +31,10 @@ public class DirectoryWatchController {
     private SimpMessagingTemplate template;
 
     @MessageMapping("/lemur")
-    @SendTo("/topic/files")
-    public void getAll() {
+    public void getAll(Principal principal) {
         Flux<FileEntry> o = Flux.concat(getDirectoryContents(), getDirectoryChanges());
-        o.subscribe(entry -> template.convertAndSend("/topic/files", entry));
+        o.subscribe(entry -> template.convertAndSendToUser(principal.getName(), "/queue/updates", entry));
+        System.out.println("Principal: " + principal.toString());
     }
 
     private Flux<FileEntry> getDirectoryChanges() {
