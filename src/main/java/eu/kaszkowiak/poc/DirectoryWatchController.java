@@ -1,19 +1,14 @@
 package eu.kaszkowiak.poc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
@@ -31,6 +26,8 @@ public class DirectoryWatchController {
     private SimpMessagingTemplate template;
 
     @MessageMapping("/lemur")
+    @SendToUser("/queue/updates")
+    @CrossOrigin("http://localhost:4200")
     public void getAll(Principal principal) {
         Flux<FileEntry> o = Flux.concat(getDirectoryContents(), getDirectoryChanges());
         o.subscribe(entry -> template.convertAndSendToUser(principal.getName(), "/queue/updates", entry));

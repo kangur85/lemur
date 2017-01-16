@@ -9,7 +9,7 @@ public enum FileEntryType {
 
     NEW_FILE;
 
-    private static Map<String, FileEntryType> texts = new HashMap(1);
+    private static Map<String, FileEntryType> texts = new HashMap<>(1);
 
     static {
         texts.put("new file", NEW_FILE);
