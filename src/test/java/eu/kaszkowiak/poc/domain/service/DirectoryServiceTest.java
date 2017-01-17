@@ -1,5 +1,6 @@
 package eu.kaszkowiak.poc.domain.service;
 
+import eu.kaszkowiak.poc.config.LemurConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,16 @@ import reactor.test.StepVerifier;
 @SpringBootTest
 public class DirectoryServiceTest {
 
+
+    @Autowired
+    LemurConfig lemurConfig;
+
     @Autowired
     private DirectoryService directoryService;
 
+
     @Test
     public void getDirectoryContents() throws Exception {
-
 
         StepVerifier.create(directoryService.getDirectoryContents())
                 .expectNextCount(3)

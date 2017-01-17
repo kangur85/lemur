@@ -7,10 +7,11 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * Created by kan on 17.01.17.
+ * Configuration used during unit tests. It must stay in src/main to be injected by Spring.
  */
 @Profile("test")
 @Configuration
-public class LemurTestConfigBuilder implements LemurConfigBuilder {
+public class LemurConfigTestBuilder implements LemurConfigBuilder {
 
     @Bean
     @Primary
