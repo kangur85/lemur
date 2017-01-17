@@ -10,14 +10,14 @@ public class FileEntryTest {
 
     @Test
     public void createFileEntry() {
-        FileEntry fe = new FileEntry("/tmp/abc.txt", FileEntryType.NEW_FILE);
-        assertThat(fe.getType()).isEqualTo(FileEntryType.NEW_FILE);
+        FileEntry fe = new FileEntry("/tmp/abc.txt", FileEntryType.EXISTING_FILE);
+        assertThat(fe.getType()).isEqualTo(FileEntryType.EXISTING_FILE);
     }
 
     @Test
     public void fileEntryToString() {
-        FileEntry fe = new FileEntry("/tmp/abc.txt", FileEntryType.NEW_FILE);
-        assertThat(fe.toString()).isEqualTo("{\"filePath\":\"/tmp/abc.txt\",\"type\":\"new file\"}");
+        FileEntry fe = new FileEntry("/tmp/abc.txt", FileEntryType.EXISTING_FILE);
+        assertThat(fe.toString()).isEqualTo("{\"filePath\":\"/tmp/abc.txt\",\"type\":\"existing file\"}");
     }
 
 }

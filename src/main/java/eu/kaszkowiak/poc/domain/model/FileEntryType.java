@@ -7,12 +7,12 @@ import java.util.Map;
 
 public enum FileEntryType {
 
-    NEW_FILE;
+    EXISTING_FILE;
 
     private static Map<String, FileEntryType> texts = new HashMap<>(1);
 
     static {
-        texts.put("new file", NEW_FILE);
+        texts.put("existing file", EXISTING_FILE);
     }
 
     @JsonValue
