@@ -18,7 +18,7 @@ import java.util.Iterator;
 public class DirectoryService {
 
     @Autowired
-    LemurConfig lemurConfig;
+    private LemurConfig lemurConfig;
 
     public Flux<FileEntry> getDirectoryContents() {
         return Flux.fromIterable(new Iterable<FileEntry>() {

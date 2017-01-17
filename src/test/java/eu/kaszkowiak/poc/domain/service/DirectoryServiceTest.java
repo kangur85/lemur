@@ -17,7 +17,7 @@ import reactor.test.StepVerifier;
 public class DirectoryServiceTest {
 
     @Autowired
-    DirectoryService directoryService;
+    private DirectoryService directoryService;
 
     @Test
     public void getDirectoryContents() throws Exception {
