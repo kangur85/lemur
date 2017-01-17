@@ -1,49 +1,30 @@
-package eu.kaszkowiak.poc;
+package eu.kaszkowiak.poc.domain.service;
 
+import eu.kaszkowiak.poc.domain.model.FileEntry;
+import eu.kaszkowiak.poc.domain.model.FileEntryType;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SendToUser;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
-import java.security.Principal;
 import java.util.Iterator;
 
-@Controller
-public class DirectoryWatchController {
+/**
+ * Created by kan on 17.01.17.
+ */
+@Service
+public class DirectoryService {
 
     @Getter
     @Value("${watchDirectoryPath}")
     private String watchDirectoryPath;
 
-    @Autowired
-    private SimpMessagingTemplate template;
-
-    @MessageMapping("/lemur")
-    @SendToUser("/queue/updates")
-    @CrossOrigin("http://localhost:4200")
-    public void getAll(Principal principal) {
-        Flux<FileEntry> o = Flux.concat(getDirectoryContents(), getDirectoryChanges());
-        o.subscribe(entry -> template.convertAndSendToUser(principal.getName(), "/queue/updates", entry));
-        System.out.println("Principal: " + principal.toString());
-    }
-
-    private Flux<FileEntry> getDirectoryChanges() {
-        return Flux.empty();
-    }
-
-    private Flux<FileEntry> getDirectoryContents() {
+    public Flux<FileEntry> getDirectoryContents() {
         return Flux.fromIterable(new Iterable<FileEntry>() {
 
             private Iterator<FileEntry> iterator;
-
-            private int cnt = 0;
 
             @Override
             public Iterator<FileEntry> iterator() {
@@ -68,4 +49,8 @@ public class DirectoryWatchController {
         });
     }
 
+
+    public Flux<FileEntry> getDirectoryChanges() {
+        return Flux.empty();
+    }
 }

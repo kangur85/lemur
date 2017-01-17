@@ -1,4 +1,4 @@
-package eu.kaszkowiak.poc;
+package eu.kaszkowiak.poc.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -43,12 +43,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                         MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-                    Principal user = new Principal() {
-                        @Override
-                        public String getName() {
-                            return message.getHeaders().get("simpSessionId", String.class);
-                        }
-                    };
+                    Principal user = () -> message.getHeaders().get("simpSessionId", String.class);
                     accessor.setUser(user);
                 }
 

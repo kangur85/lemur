@@ -1,4 +1,4 @@
-package eu.kaszkowiak.poc;
+package eu.kaszkowiak.poc.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

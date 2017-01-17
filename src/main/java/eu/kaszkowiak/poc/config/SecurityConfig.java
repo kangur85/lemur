@@ -1,4 +1,4 @@
-package eu.kaszkowiak.poc;
+package eu.kaszkowiak.poc.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,8 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().requireCsrfProtectionMatcher(new RequestMatcher() {
 
-            private Pattern allowedMethods      = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
-            private AntPathRequestMatcher unprotectedMatcher  = new AntPathRequestMatcher("/lemur/**/");
+            private Pattern allowedMethods = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
+            private AntPathRequestMatcher unprotectedMatcher = new AntPathRequestMatcher("/lemur/**/");
 
             @Override
             public boolean matches(HttpServletRequest request) {

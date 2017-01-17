@@ -1,11 +1,13 @@
-package eu.kaszkowiak.poc;
+package eu.kaszkowiak.poc.domain.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @AllArgsConstructor
+@EqualsAndHashCode
 public class FileEntry {
 
     @Getter

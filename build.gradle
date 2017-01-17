@@ -30,6 +30,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
+	testCompile group: 'io.projectreactor.addons', name: 'reactor-test', version: '3.0.4.RELEASE'
 	compileOnly "org.projectlombok:lombok:1.16.12"
 	compile "io.projectreactor:reactor-core:3.0.4.RELEASE"
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
