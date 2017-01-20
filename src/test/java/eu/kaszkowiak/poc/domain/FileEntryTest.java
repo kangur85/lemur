@@ -1,7 +1,5 @@
-package eu.kaszkowiak.poc.domain.model;
+package eu.kaszkowiak.poc.domain;
 
-import eu.kaszkowiak.poc.domain.model.FileEntry;
-import eu.kaszkowiak.poc.domain.model.FileEntryType;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,6 +1,6 @@
-package eu.kaszkowiak.poc.controller;
+package eu.kaszkowiak.poc.web;
 
-import eu.kaszkowiak.poc.domain.service.DirectoryService;
+import eu.kaszkowiak.poc.service.DirectoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

@@ -1,22 +1,26 @@
-package eu.kaszkowiak.poc.config;
+package eu.kaszkowiak.poc.config.impl;
 
+import eu.kaszkowiak.poc.config.LemurConfig;
+import eu.kaszkowiak.poc.config.LemurConfigFactory;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Created by kan on 17.01.17.
  */
 @Configuration
-public class LemurConfigBuilderImpl implements LemurConfigBuilder {
+@Profile("production")
+public class LemurConfigFactoryImpl implements LemurConfigFactory {
 
-    @Getter
     @Value("${watchDirectoryPath}")
     private String watchDirectoryPath;
 
     @Bean
     public LemurConfig getConfig() {
+        System.out.println("Production configuration fetched.");
         return new LemurConfig(watchDirectoryPath);
     }
 

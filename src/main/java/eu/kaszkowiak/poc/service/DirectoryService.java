@@ -1,8 +1,8 @@
-package eu.kaszkowiak.poc.domain.service;
+package eu.kaszkowiak.poc.service;
 
 import eu.kaszkowiak.poc.config.LemurConfig;
-import eu.kaszkowiak.poc.domain.model.FileEntry;
-import eu.kaszkowiak.poc.domain.model.FileEntryType;
+import eu.kaszkowiak.poc.domain.FileEntry;
+import eu.kaszkowiak.poc.domain.FileEntryType;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
