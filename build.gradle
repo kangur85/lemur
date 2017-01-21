@@ -10,6 +10,11 @@ buildscript {
 	}
 }
 
+ext {
+    profile = project.hasProperty('profile') ? project.getProperty('profile') : 'production'
+    watchDir = project.hasProperty('watchDir') ? project.getProperty('watchDir') : './'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
@@ -25,6 +30,13 @@ repositories {
 	mavenCentral()
 }
 
+processResources {
+	expand project.properties
+}
+
+bootRun {
+    systemProperty "spring.profiles.active", profile
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')

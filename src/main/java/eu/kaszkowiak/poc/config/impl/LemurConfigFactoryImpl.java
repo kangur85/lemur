@@ -2,7 +2,6 @@ package eu.kaszkowiak.poc.config.impl;
 
 import eu.kaszkowiak.poc.config.LemurConfig;
 import eu.kaszkowiak.poc.config.LemurConfigFactory;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,6 @@ public class LemurConfigFactoryImpl implements LemurConfigFactory {
 
     @Bean
     public LemurConfig getConfig() {
-        System.out.println("Production configuration fetched.");
         return new LemurConfig(watchDirectoryPath);
     }
 

@@ -18,7 +18,7 @@ import reactor.test.StepVerifier;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("spring-test")
+@ActiveProfiles("test")
 public class DirectoryServiceTest {
 
     @Autowired
