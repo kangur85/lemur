@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().requireCsrfProtectionMatcher(new RequestMatcher() {
 
             private Pattern allowedMethods = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
-            private AntPathRequestMatcher unprotectedMatcher = new AntPathRequestMatcher("/lemur/**/");
+            private AntPathRequestMatcher unprotectedMatcher = new AntPathRequestMatcher("/get/**/");
 
             @Override
             public boolean matches(HttpServletRequest request) {

@@ -27,7 +27,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/lemur")
+        registry.addEndpoint("/get/allFiles", "/get/allFiles")
                 .setAllowedOrigins("http://localhost:4200")
                 .withSockJS();
     }
